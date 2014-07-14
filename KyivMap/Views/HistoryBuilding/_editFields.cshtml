@@ -1,0 +1,96 @@
+﻿@using KyivMap.Models
+@using TSFramework.Utils
+@model HistoryBuilding
+
+@{
+	string uploadImage = Url.Action("Upload", "Image");
+}
+
+<div class="jumbotron">
+	<input type='hidden' id="wikisearch" style="width:100%" />
+</div>
+
+<div class="row">
+	<div class="col-xs-3">
+		<p style="font-weight: bold">Image</p>
+		<img src="@Model.Image" class="img-thumbnail img-edit" id="upload-image">
+		<span class="fileinput-button">
+			<input id="fileupload" type="file" name="file" data-url="@uploadImage">
+		</span>
+		<a id="deleteImage" href="#">Delete image</a>
+		<div id="progress" class="progress" style="display: none">
+			<div class="progress-bar"></div>
+		</div>
+		@Html.HiddenFor(m => m.Image, new { @class="form-control"})
+	</div>
+	<div class="col-xs-9">
+		<div class="form-group">
+			@Html.HiddenFor(m => m.Id)
+			@Html.LabelFor(m => m.Name)
+			@Html.TextBoxFor(m => m.Name, new { @class="form-control"})
+			@Html.ValidationMessageFor(m => m.Name)
+		</div>
+		<div class="form-group">
+			@Html.LabelFor(m => m.Key)
+			@Html.TextBoxFor(m => m.Key, new { @class="form-control" })
+			@Html.ValidationMessageFor(m => m.Key)
+		</div>
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(m => m.Url)
+	<div class="input-group">
+		@Html.TextBoxFor(m => m.Url, new { @class="form-control" })
+		<span class="input-group-btn">
+			<button class="btn btn-default" id="url-go" type="button">Go!</button>
+		</span>
+	</div>
+	@Html.ValidationMessageFor(m => m.Url)
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(m => m.Description)
+	@Html.TextAreaFor(m => m.Description, new { @class="form-control" })
+	@Html.ValidationMessageFor(m => m.Description)
+</div>
+
+<div class="row">
+	<div class="form-group col-xs-6">
+		@Html.LabelFor(m => m.StartBuildingYear)
+		@Html.TextBoxFor(m => m.StartBuildingYear, new { @class="form-control numeric" })
+		@Html.ValidationMessageFor(m => m.StartBuildingYear)
+	</div>
+
+	<div class="form-group col-xs-6">
+		@Html.LabelFor(m => m.EndBuildingYear)
+		@Html.TextBoxFor(m => m.EndBuildingYear, new { @class="form-control numeric" })
+		@Html.ValidationMessageFor(m => m.EndBuildingYear)
+	</div>
+</div>
+
+<div class="row">
+	<div class="form-group col-xs-6">
+		@Html.LabelFor(m => m.StartUseYear)
+		@Html.TextBoxFor(m => m.StartUseYear, new { @class="form-control numeric" })
+		@Html.ValidationMessageFor(m => m.StartUseYear)
+	</div>
+
+	<div class="form-group col-xs-6">
+		@Html.LabelFor(m => m.EndUseYear)
+		@Html.TextBoxFor(m => m.EndUseYear, new { @class="form-control numeric" })
+		@Html.ValidationMessageFor(m => m.EndUseYear)
+	</div>
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(m => m.DemolitionYear)
+	@Html.TextBoxFor(m => m.DemolitionYear, new { @class="form-control numeric" })
+	@Html.ValidationMessageFor(m => m.DemolitionYear)
+</div>
+
+<div class="form-group">
+	@Html.LabelFor(m => m.Type)
+	@Html.DropDownListFor(m => m.Type, Model.Type.ToSelectList(), new { @class="form-control" })
+	@Html.ValidationMessageFor(m => m.Type)
+</div>

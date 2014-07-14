@@ -1,0 +1,15 @@
+﻿@model KyivMap.Models.HistoryBuilding
+@{
+    ViewBag.Title = "Add Building";
+}
+
+@using (Html.BeginForm(null, null, FormMethod.Post, new{ role="form"}))
+{
+	@Html.Partial("_editFields")
+	<button type="submit" class="btn btn-primary btn-lg btn-block">Create</button>
+}
+
+@section Scripts{
+	<script src="/Scripts/pages/buildingEdit.js"></script>
+}
+

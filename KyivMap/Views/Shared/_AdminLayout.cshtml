@@ -1,0 +1,40 @@
+﻿@using System.Web.Optimization
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>@ViewBag.Title - Kyiv Map admin</title>
+  @Styles.Render("~/bundles/Content/bootstrap")
+	@Styles.Render("~/bundles/Content/select2")
+	@Styles.Render("~/bundles/Content/site")
+	@Scripts.Render("~/bundles/Scripts/framework")
+	@RenderSection("Styles", false)
+</head>
+	<body>
+		<div class="container-fluid">
+			<div class="content col-md-8 col-md-offset-2">
+				<div class="navbar navbar-default	">
+					<div class="navbar-header">
+						<span class="navbar-brand">KyivMap</span>
+					</div>
+					
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li>@Html.ActionLink("Buildings", "Index", "HistoryBuilding")</li>
+						</ul>
+					</div>
+
+				</div>
+				<div class="container-fluid body-content">
+					@RenderBody()
+				</div>
+			</div>
+		</div>
+		@Scripts.Render("~/bundles/Scripts/common")
+		@Scripts.Render("~/bundles/Scripts/fileupload")
+		@Scripts.Render("~/bundles/Scripts/select2")
+		
+		@RenderSection("Scripts", false)
+	</body>
+</html>
