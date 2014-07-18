@@ -29,7 +29,7 @@
 		var title = e.val;
 		var url = "http://ru.wikipedia.org/wiki/" + title;
 		var name = title.replace(' (Киев)', '');
-		var key = toTitleCase(name.replace(/[^А-Яа-я ]/g, '').translit()).replace(' ', '');
+		var key = toTitleCase(name.replace(/[^А-Яа-я ]/g, '').translit()).split(' ').join('');
 		
 		$("#Name").val(name);
 		$("#Key").val(key);
@@ -81,6 +81,11 @@
 		//		}
 		//	}
 		//});
+	});
+
+	$("#Name").change(function() {
+		var key = toTitleCase($(this).val().replace(/[^А-Яа-я ]/g, '').translit()).split(' ').join('');
+		$("#Key").val(key);
 	});
 
 	$("#url-go").click(function() {
