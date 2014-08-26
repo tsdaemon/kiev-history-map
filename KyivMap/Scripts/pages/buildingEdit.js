@@ -5,7 +5,7 @@
 
 	$("#wikisearch").select2({
 		placeholder: "Искать в Wikipedia",
-		minimumInputLength: 5,
+		minimumInputLength: 3,
 		ajax: { 
 			url: "http://ru.wikipedia.org/w/api.php",
 			dataType: 'jsonp',
@@ -28,65 +28,21 @@
 	}).on("change", function (e) {
 		var title = e.val;
 		var url = "http://ru.wikipedia.org/wiki/" + title;
-		var name = title.replace(' (Киев)', '');
-		var key = toTitleCase(name.replace(/[^А-Яа-я ]/g, '').translit()).split(' ').join('');
-		
-		$("#Name").val(name);
-		$("#Key").val(key);
+		$("#Name").val(title);
 		$("#Url").val(url);
-		
+		onNameChanged();
+
 		$.get("/Image/GetFromWiki", { url: url }, function (data) {
 			$("#Image").val(data.image);
 			$("#upload-image").attr("src", data.image);
 		});
-		
-		//$.ajax({
-		//	url: "http://ru.wikipedia.org/w/api.php",
-		//	dataType: 'jsonp',
-		//	data: {
-		//		action: 'query',
-		//		titles: title,
-		//		prop: 'images',
-		//		format: 'json',
-		//	},
-		//	success: function(data) {
-		//		var images = data.query.pages[Object.keys(data.query.pages)[0]].images;
-		//		var image = images[0].title;
-		//		for (var i = 0; i < images.length; i++) {
-		//			var im = images[i].title;
-		//			if (im.contains(name) || im.contains(key)) {
-		//				image = im;
-		//			}
-		//		}
-		//		if (image != null) {
-		//			$.ajax({
-		//				url: "http://ru.wikipedia.org/w/api.php",
-		//				dataType: 'jsonp',
-		//				data: {
-		//					action: 'query',
-		//					titles: image,
-		//					prop: 'imageinfo',
-		//					iiurlwidth: 300,
-		//					iiprop: "url",
-		//					format: 'json',
-		//				},
-		//				success: function(data) {
-		//					var url = data.query.pages['-1'].imageinfo[0].url;
-		//					$.get("/Image/UploadRemote", { url: url }, function (data) {
-		//						$("#Image").val(data.image);
-		//						$("#upload-image").attr("src", data.image);
-		//					});
-		//				}
-		//			});
-		//		}
-		//	}
+
+		//$.get("/Wiki/GetBuildingInfo", { title: title }, function(data) {
+
 		//});
 	});
 
-	$("#Name").change(function() {
-		var key = toTitleCase($(this).val().replace(/[^А-Яа-я ]/g, '').translit()).split(' ').join('');
-		$("#Key").val(key);
-	});
+	$("#Name").change(onNameChanged);
 
 	$("#url-go").click(function() {
 		var url = $("#Url").val();
@@ -98,3 +54,20 @@
 		$("#upload-image").attr("src", $(this).val());
 	});
 });
+
+function onNameChanged() {
+	var name = $("#Name").val();
+	name = name.replace(' (Киев)', '').replace(' (станция метро)', ' (метро)').replace(' (станция метро, Киев)', ' (метро)');
+	$("#Name").val(name);
+	
+	var key = toTitleCase(name.replace(/[^А-Яа-я ]/g, '').translit()).split(' ').join('');
+	$("#Key").val(key);
+	
+	if (name.contains('метро')) {
+		$('#Type').val(6) //Subway
+	}
+	
+	if (name.contains('ЖК')) {
+		$('#Type').val(1) //ЖК
+	}
+}
